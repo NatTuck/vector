@@ -1,8 +1,17 @@
 
+// View data:
+// data = { 
+//   player: { xx: Float, yy: Float, aa: Float },
+//   ents: [
+//     { id: Int, xx: Float, yy: Float, aa: Float, shape: "circle"|"square", size: Float }
+//   ],
+// }
+// Coordinates are zone-relative, in meters.
+
 var stage;
 
-var player  = { x: 400, y: 400 };
-var dots = [ [100, 100], [600, 600] ];
+var player = { x: 400, y: 400 };
+var dots   = [ [100, 100], [600, 600] ];
 
 function setup() {
     $('canvas').bind('contextmenu', function (e) { return false; });
@@ -13,7 +22,6 @@ function setup() {
         if (ev.nativeEvent.button == 0) {
             gotLeftClick(ev.stageX, ev.stageY);
         }
-
         if (ev.nativeEvent.button == 2) {
             gotRightClick(ev.stageX, ev.stageY);
         }
@@ -21,6 +29,8 @@ function setup() {
     
     stage.update();
 }
+
+var circle;
 
 function draw() {
     var div = $('#vector-game');
@@ -38,8 +48,8 @@ function draw() {
     bg.y = 0;
     stage.addChild(bg);
     
-    var circle = new createjs.Shape();
-    circle.graphics.beginFill("blue").drawCircle(0, 0, 65);
+    circle = new createjs.Shape();
+    circle.graphics.beginFill("blue").drawCircle(0, 0, 50);
     circle.x = player.x;
     circle.y = player.y;
     circle.addEventListener("click", function(ev) {
@@ -49,7 +59,7 @@ function draw() {
     
     dots.forEach(function (ee) {
         var square = new createjs.Shape();
-        square.graphics.beginFill("red").drawRect(0, 0, 30, 30);
+        square.graphics.beginFill("red").drawRect(0, 0, 50, 50);
         square.x = ee[0];
         square.y = ee[1];
         stage.addChild(square);
@@ -64,6 +74,9 @@ function gotLeftClick(xx, yy) {
 
 function gotRightClick(xx, yy) {
     console.log("Right click: " + xx + "," + yy);
+    circle.x = xx;
+    circle.y = yy;
+    stage.update();
 }
 
 export var View = {
@@ -72,3 +85,4 @@ export var View = {
 };
 
 window.View = View;
+
