@@ -1,17 +1,15 @@
 
-// View data:
-// data = { 
-//   player: { xx: Float, yy: Float, aa: Float },
-//   ents: [
-//     { id: Int, xx: Float, yy: Float, aa: Float, shape: "circle"|"square", size: Float }
-//   ],
-// }
-// Coordinates are zone-relative, in meters.
-
 var stage;
+var ww;
+var hh;
 
-var player = { x: 400, y: 400 };
-var dots   = [ [100, 100], [600, 600] ];
+var player = { xx: 400, yy: 400 };
+// An Ent is {xx, yy, aa, size, shape, color}
+
+var ents = [
+    {xx: 300, yy: 300, aa: 0, size: 50, shape: "square", color: "green"},
+    {xx: 500, yy: 300, aa: 2, size: 50, shape: "square", color: "green"},
+];
 
 function setup() {
     $('canvas').bind('contextmenu', function (e) { return false; });
@@ -30,12 +28,12 @@ function setup() {
     stage.update();
 }
 
-var circle;
+var icon;
 
 function draw() {
     var div = $('#vector-game');
-    var ww = div.innerWidth();
-    var hh = window.innerHeight;
+    ww = div.innerWidth();
+    hh = window.innerHeight;
 
     stage.canvas.width  = ww;
     stage.canvas.height = hh;
@@ -47,23 +45,10 @@ function draw() {
     bg.x = 0;
     bg.y = 0;
     stage.addChild(bg);
-    
-    circle = new createjs.Shape();
-    circle.graphics.beginFill("blue").drawCircle(0, 0, 50);
-    circle.x = player.x;
-    circle.y = player.y;
-    circle.addEventListener("click", function(ev) {
-        console.log(ev);
-    });
-    stage.addChild(circle);
-    
-    dots.forEach(function (ee) {
-        var square = new createjs.Shape();
-        square.graphics.beginFill("red").drawRect(0, 0, 50, 50);
-        square.x = ee[0];
-        square.y = ee[1];
-        stage.addChild(square);
-    });
+   
+    ents.forEach(drawEnt);
+
+    drawPlayer();
     
     stage.update();
 }
@@ -74,9 +59,56 @@ function gotLeftClick(xx, yy) {
 
 function gotRightClick(xx, yy) {
     console.log("Right click: " + xx + "," + yy);
-    circle.x = xx;
-    circle.y = yy;
+    player.xx = xx;
+    player.yy = yy;
     stage.update();
+}
+
+function gotEntClick(ent, xx, yy) {
+    console.log("Ent click: ", ent);
+}
+
+function drawEnt(ent) {
+    var x0 = player.xx - Math.floor(ww / 2);
+    var y0 = player.yy - Math.floor(hh / 2);
+    drawShape(ent, ent.xx - x0, ent.yy - y0);
+}
+
+function drawPlayer() {
+    var pent = { shape: "circle", color: "blue", size: 50 };
+    drawShape(pent, ww / 2, hh / 2);
+}
+
+function drawShape(ent, xx, yy) {
+    console.log("draw at: " + xx + "," + yy);
+
+    var cc = new createjs.Container();
+    cc.x = xx;
+    cc.y = yy;
+
+    var shape = new createjs.Shape();
+    if (ent.shape == "circle") {
+        shape.graphics.beginFill(ent.color).drawCircle(0, 0, ent.size);
+    }
+    else {
+        var sz = ent.size;
+        shape.graphics.beginFill(ent.color).drawRect(-sz, -sz, 2*sz, 2*sz);
+    }
+    shape.addEventListener("click", function(ev) {
+        gotEntClick(ent, ev.stageX, ev.stageY);
+    });
+    cc.addChild(shape);
+
+    var arrow = new createjs.Text();
+    arrow.font = ent.size + "px Play";
+    arrow.color = "white";
+    arrow.textAlign = "center";
+    arrow.textBaseline = "middle";
+    arrow.text = "\u27A1";
+    arrow.rotation = -180.0 * ent.aa / Math.PI;
+    cc.addChild(arrow);
+ 
+    stage.addChild(cc);
 }
 
 export var View = {
