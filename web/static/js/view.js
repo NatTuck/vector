@@ -3,28 +3,20 @@ var stage;
 var ww;
 var hh;
 
-var player = { xx: 400, yy: 400 };
-var mouse  = { xx: 0, yy: 0 };
-var cursor = { xx: 0, yy: 0 };
-// An Ent is { xx, yy, aa, size, color }
-
-var ents = [
-    { xx: 300, yy: 300, aa: 0, size: 50, color: "green" },
-    { xx: 500, yy: 300, aa: 2, size: 50, color: "orange" },
-];
-
 // Coordinates are in zone coordinates.
 function point(xx, yy) {
     return { xx: xx, yy: yy };
 }
 
 function zone2view(pt) {
+    var player = Game.get_player();
     var x0 = player.xx - Math.floor(ww / 2);
     var y0 = player.yy - Math.floor(hh / 2);
     return point(pt.xx - x0, pt.yy - y0);
 }
 
 function view2zone(pt) {
+    var player = Game.get_player();
     var x0 = player.xx - Math.floor(ww / 2);
     var y0 = player.yy - Math.floor(hh / 2);
     return point(pt.xx + x0, pt.yy + y0);
@@ -46,17 +38,19 @@ function setup() {
 
     stage.enableMouseOver(5);
     stage.on("stagemousemove", function(evt) {
+        /*
         mouse.xx = evt.stageX;
         mouse.yy = evt.stageY;
         draw();
+        */
     });
 
-    draw();
+    draw(Game.game);
 }
 
 var icon;
 
-function draw() {
+function draw(game) {
     var div = $('#vector-game');
     ww = div.innerWidth();
     hh = window.innerHeight;
@@ -73,31 +67,31 @@ function draw() {
     stage.addChild(bg);
 
     var text = new createjs.Text();
-    var mpos = view2zone(mouse);
+    var mpos = view2zone({xx: 10, yy: 10});
     text.font = "16px Play";
-    text.text = "Mouse @ " + mouse.xx + "," + mouse.yy + "; zone = " + mpos.xx + "," + mpos.yy;
+    text.text = "Mouse @ zone = " + mpos.xx + "," + mpos.yy;
     text.x = 100;
     text.y = 100;
     stage.addChild(text);
 
-    ents.forEach(drawEnt);
+    game.ents.forEach(drawEnt);
 
-    drawPlayer();
-    drawCursor();
+    drawPlayer(game.player);
+    drawCursor(game.cursor);
     
     stage.update();
 }
 
 function gotLeftClick(xx, yy) {
-    cursor = view2zone(point(xx, yy));
-    draw();
+    var pt = view2zone(point(xx, yy));
+    Game.put_cursor(pt);
+    draw(Game.game);
 }
 
 function gotRightClick(xx, yy) {
-    var coords = view2zone(point(xx, yy));
-    player.xx = coords.xx;
-    player.yy = coords.yy;
-    draw();
+    var pt = view2zone(point(xx, yy));
+    Game.player_move(pt);
+    draw(Game.game);
 }
 
 function gotEntClick(ent, xx, yy) {
@@ -109,6 +103,7 @@ function drawEnt(ent) {
 }
 
 function drawPlayer() {
+    var player = Game.get_player();
     var pent = { color: "blue", size: 50, xx: player.xx, yy: player.yy };
     drawCircle(pent);
 }
@@ -139,7 +134,7 @@ function drawCircle(ent) {
     stage.addChild(cc);
 }
 
-function drawCursor() {
+function drawCursor(cursor) {
     var vpos = zone2view(cursor);
     var cc = new createjs.Text();
     cc.text = "\u2295";

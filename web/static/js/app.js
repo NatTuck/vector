@@ -23,10 +23,13 @@ import "phoenix_html"
 
 import { View } from "./view"
 import { Chat } from "./chat"
+import { Game } from "./game"
 
 $(function() { 
+    Game.setup();
+
     View.setup(); 
-    View.draw();
+    View.draw(Game.game);
 
     Chat.setup();
     Chat.put("== Chat Log ==");
