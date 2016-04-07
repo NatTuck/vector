@@ -19,13 +19,13 @@ function get_player() {
 }
 
 function player_move(pt) {
-    console.log("player_move: " + pt);
     game.player.xx = pt.xx;
     game.player.yy = pt.yy;
 }
 
-function put_cursor(pt) {
-    console.log("put_cursor: " + pt);
+function put_cursor(pt)  {
+    game.cursor.xx = pt.xx;
+    game.cursor.yy = pt.yy;
 }
 
 function setup() {
