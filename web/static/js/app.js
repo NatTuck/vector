@@ -18,8 +18,7 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-// import socket from "./socket"
-//
+import { socket, channel } from "./socket"
 
 import { View } from "./view"
 import { Chat } from "./chat"
@@ -33,4 +32,9 @@ $(function() {
 
     Chat.setup();
     Chat.put("== Chat Log ==");
+
+    channel.push("new_msg", {}).
+        receive("ok", m => { console.log(m) });
 });
+
+window.ch = channel;

@@ -45,6 +45,9 @@ function setup() {
         */
     });
 
+    createjs.Ticker.setFPS(30);
+
+
     draw(Game.game);
 }
 
@@ -60,7 +63,11 @@ function draw(game) {
 
     stage.removeAllChildren();
 
-    var bg = new createjs.Shape();
+    var bg = _.extend(
+            new createjs.Shape(),
+            {
+                tick: function (evt) { console.log("Tick"); },
+            });
     bg.graphics.beginFill("#f0f0f0").drawRect(0, 0, ww, hh);
     bg.x = 0;
     bg.y = 0;
@@ -104,6 +111,15 @@ function drawEnt(ent) {
 
 function drawPlayer() {
     var player = Game.get_player();
+
+    var dpos = zone2view({xx: player.x1, yy: player.y1});
+    var dst = new createjs.Shape();
+    dst.graphics.beginStroke("blue").setStrokeStyle(5).
+        setStrokeDash([20, 10]).drawCircle(0, 0, 50);
+    dst.x = dpos.xx;
+    dst.y = dpos.yy;
+    stage.addChild(dst);
+
     var pent = { color: "blue", size: 50, xx: player.xx, yy: player.yy };
     drawCircle(pent);
 }

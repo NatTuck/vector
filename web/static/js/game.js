@@ -1,6 +1,6 @@
 
 var game = {
-    player: { xx: 1000, yy: 1000, aa: 0 },
+    player: { xx: 1000, yy: 1000, aa: 0, x1: 1100, y1: 1100, speed: 20 },
     cursor: { xx: 1000, yy:  950 },
     ents:   [],
 };
@@ -19,11 +19,11 @@ function get_player() {
 }
 
 function player_move(pt) {
-    game.player.xx = pt.xx;
-    game.player.yy = pt.yy;
+    game.player.x1 = pt.xx;
+    game.player.y1 = pt.yy;
 }
 
-function put_cursor(pt)  {
+function put_cursor(pt) {
     game.cursor.xx = pt.xx;
     game.cursor.yy = pt.yy;
 }
@@ -32,8 +32,24 @@ function setup() {
     gen_ents();
 }
 
-function tick() {
+function distance(dx, dy) {
+    return sqrt(dx*dx + dy*dy);
+}
 
+function tick() {
+    var p0 = game.player;
+    var dx = p0.x1 - p0.xx;
+    var dy = p0.y1 - p0.yy;
+
+    /*
+    if (distance(dx, dy) > p0.speed) {
+
+    }
+
+    var p1 = _.extend(_.clone(game.player), {
+        xx: p0.xx + 
+    })
+    */
 }
 
 export var Game = {

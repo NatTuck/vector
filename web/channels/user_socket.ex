@@ -3,6 +3,7 @@ defmodule Vector.UserSocket do
 
   ## Channels
   # channel "rooms:*", Vector.RoomChannel
+  channel "sessions:*", Vector.SessionChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
