@@ -1,15 +1,6 @@
+
 <div class="row">
-  <div id="vector-game" class="col-sm-8 col-right" style="background: grey">
-    <canvas id="vector-canvas" width="1024" height="768">
-    </canvas>
-  </div>
-  <div class="col-sm-4 col-left">
-    <div class="chat-upper">
-      <div class="chat-log">
-      </div>
-    </div>
-    <div class="chat-lower">
-      <p><input type="text" id="chat-input"></p>
-    </div>
+  <div class="col-sm-8" style="padding: 3em;">
+    <a href="/play">Play</a>
   </div>
 </div>

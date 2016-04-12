@@ -24,17 +24,22 @@ import { View } from "./view"
 import { Chat } from "./chat"
 import { Game } from "./game"
 
-$(function() { 
-    Game.setup();
-
-    View.setup(); 
-    View.draw(Game.game);
-
-    Chat.setup();
-    Chat.put("== Chat Log ==");
-
-    channel.push("new_msg", {}).
-        receive("ok", m => { console.log(m) });
-});
+if ($('canvas')[0]) {
+    $(function() { 
+        Game.setup();
+        
+        View.setup(); 
+        View.draw(Game.game);
+        
+        Chat.setup();
+        Chat.put("== Chat Log ==");
+        
+        channel.push("new_msg", {}).
+            receive("ok", m => { console.log(m) });
+        
+        channel.on("state", m => { console.log("state: ", m); });
+    });
+}
 
 window.ch = channel;
+
