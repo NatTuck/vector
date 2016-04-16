@@ -1,0 +1,28 @@
+<h2>Listing zones</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Attrs</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for zone <- @zones do %>
+    <tr>
+      <td><%= zone.name %></td>
+      <td><%= zone.attrs %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: zone_path(@conn, :show, zone), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: zone_path(@conn, :edit, zone), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: zone_path(@conn, :delete, zone), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New zone", to: zone_path(@conn, :new) %>

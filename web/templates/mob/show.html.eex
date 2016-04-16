@@ -1,0 +1,28 @@
+<h2>Show mob</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @mob.name %>
+  </li>
+
+  <li>
+    <strong>X:</strong>
+    <%= @mob.x %>
+  </li>
+
+  <li>
+    <strong>Y:</strong>
+    <%= @mob.y %>
+  </li>
+
+  <li>
+    <strong>Attrs:</strong>
+    <%= @mob.attrs %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: mob_path(@conn, :edit, @mob) %>
+<%= link "Back", to: mob_path(@conn, :index) %>

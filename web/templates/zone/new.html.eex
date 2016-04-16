@@ -1,0 +1,6 @@
+<h2>New zone</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: zone_path(@conn, :create) %>
+
+<%= link "Back", to: zone_path(@conn, :index) %>

@@ -1,0 +1,32 @@
+<h2>Listing mobs</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Attrs</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for mob <- @mobs do %>
+    <tr>
+      <td><%= mob.name %></td>
+      <td><%= mob.x %></td>
+      <td><%= mob.y %></td>
+      <td><%= mob.attrs %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: mob_path(@conn, :show, mob), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: mob_path(@conn, :edit, mob), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: mob_path(@conn, :delete, mob), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New mob", to: mob_path(@conn, :new) %>

@@ -1,0 +1,6 @@
+<h2>New mob</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: mob_path(@conn, :create) %>
+
+<%= link "Back", to: mob_path(@conn, :index) %>

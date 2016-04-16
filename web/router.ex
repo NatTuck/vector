@@ -18,10 +18,12 @@ defmodule Vector.Router do
 
     get "/", PageController, :index
     get "/play", PageController, :play
+
+    resources "/mobs", MobController
+    resources "/zones", ZoneController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Vector do
-  #   pipe_through :api
-  # end
+  scope "/api", Vector do
+    pipe_through :api
+  end
 end

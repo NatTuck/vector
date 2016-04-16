@@ -35,8 +35,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :vector, Vector.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "vector",
+  password: "password1",
   database: "vector_dev",
   hostname: "localhost",
   pool_size: 10

@@ -1,0 +1,18 @@
+<h2>Show zone</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @zone.name %>
+  </li>
+
+  <li>
+    <strong>Attrs:</strong>
+    <%= @zone.attrs %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: zone_path(@conn, :edit, @zone) %>
+<%= link "Back", to: zone_path(@conn, :index) %>
